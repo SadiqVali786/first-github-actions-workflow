@@ -1,0 +1,32 @@
+name: Next JS Build with Caching & Artifacts
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  nextjs-build:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Next.js
+        run: npm run build
+
+      - name: Upload Build a Artifacts
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: nextjs-build
+          path: out/        
